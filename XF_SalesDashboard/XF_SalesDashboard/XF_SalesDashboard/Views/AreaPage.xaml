@@ -39,11 +39,11 @@
     </ig:XFDataChart>
 
     <!-- PieChart -->
-    <!--<ig:XFPieChart Grid.Row="2"
+    <ig:XFPieChart Grid.Row="2"
                    x:Name="pieChart"
                    ItemsSource="{Binding SegmentData}"
                    LabelMemberPath="Item"
-                   ValueMemberPath="Value"/>-->
+                   ValueMemberPath="Value"/>
 
   </Grid>
 </ContentPage>
