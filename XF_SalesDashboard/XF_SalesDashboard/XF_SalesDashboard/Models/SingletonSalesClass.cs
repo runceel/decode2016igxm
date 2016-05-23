@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace XF_SalesDashboard.Models
 {
-    public class SingletonSalesClass
+    public class SingletonSalesClass : INotifyPropertyChanged
     {
         static readonly string EndPoint = @"http://jxug.org/SalesData.json";
 
@@ -19,6 +20,18 @@ namespace XF_SalesDashboard.Models
         public static SingletonSalesClass Instance { get; } = new SingletonSalesClass();
 
         private List<SalesModel> _salesData = new List<SalesModel>();
+
+        public List<SalesModel> SalesData
+        {
+            get { return _salesData; }
+            set
+            {
+                _salesData = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SalesData)));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// インスタンスが一つきりであることを保証するためコンストラクタは隠ぺいする
@@ -31,65 +44,55 @@ namespace XF_SalesDashboard.Models
         /// <summary>
         /// 初期化メソッド
         /// </summary>
-        public Task Initialize()
+        public async Task InitializeAsync()
         {
             System.Diagnostics.Debug.WriteLine("【SingletonSalesClass.Instance.Initialize()】");
-            return Task.Run(async () =>
+            using (var client = new HttpClient())
             {
-                using (var client = new HttpClient())
+                using (var reader = new StreamReader(await client.GetStreamAsync(EndPoint)))
                 {
-                    using (var reader = new StreamReader(await client.GetStreamAsync(EndPoint)))
-                    {
-                        var json = await reader.ReadToEndAsync();
-                        this._salesData = JsonConvert.DeserializeObject<List<SalesModel>>(json);
-                    }
+                    var json = await reader.ReadToEndAsync();
+                    this.SalesData = JsonConvert.DeserializeObject<List<SalesModel>>(json);
                 }
-            });
+            }
         }
 
-        public Task<List<SummaryModel>> GetSalesAsync()
+        public List<SummaryModel> GetSales()
         {
-            return Task.Run(() =>
-            {
-                return this._salesData
-                    .GroupBy(x => x.StoreName)
-                    .Select(x => new SummaryModel
-                    {
-                        Item = x.Key,
-                        Value = x.Sum(y => y.Sales)
-                    }).ToList();
-
-            });
+            if (_salesData == null) { return new List<SummaryModel>(); }
+            return this._salesData
+                .GroupBy(x => x.StoreName)
+                .Select(x => new SummaryModel
+                {
+                    Item = x.Key,
+                    Value = x.Sum(y => y.Sales)
+                }).ToList();
         }
 
-        public Task<List<SummaryModel>> GetSalesbyCategoriesAsync()
+        public List<SummaryModel> GetSalesbyCategories()
         {
-            return Task.Run(() =>
-            {
-                return this._salesData
-                    .GroupBy(x => x.Category)
-                    .Select(x => new SummaryModel
-                    {
-                        Item = x.Key,
-                        Value = x.Sum(y => y.Sales)
-                    }).ToList();
-
-            });
+            if (_salesData == null) { return new List<SummaryModel>(); }
+            return this._salesData
+                .ToArray()
+                .GroupBy(x => x.Category)
+                .Select(x => new SummaryModel
+                {
+                    Item = x.Key,
+                    Value = x.Sum(y => y.Sales)
+                }).ToList();
         }
 
-        public Task<List<SummaryModel>> GetSalesbySegmentsAsync()
+        public List<SummaryModel> GetSalesbySegments()
         {
-            return Task.Run(() =>
-            {
-                return this._salesData
-                    .GroupBy(x => x.Segment.Contains("M") ? "男性" : "女性")
-                    .Select(x => new SummaryModel
-                    {
-                        Item = x.Key,
-                        Value = x.Sum(y => y.Sales)
-                    }).ToList();
-
-            });
+            if (_salesData == null) { return new List<SummaryModel>(); }
+            return this._salesData
+                .ToArray()
+                .GroupBy(x => x.Segment.Contains("M") ? "男性" : "女性")
+                .Select(x => new SummaryModel
+                {
+                    Item = x.Key,
+                    Value = x.Sum(y => y.Sales)
+                }).ToList();
         }
     }
 }

@@ -59,23 +59,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="InfragisticsAndroidBindings, Version=16.1.20161.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Infragistics.Xamarin.Core.16.1.20161.1002\lib\MonoAndroid10\InfragisticsAndroidBindings.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Infragistics\2016.1\Xamarin Forms\References\InfragisticsAndroidBindings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="InfragisticsXF, Version=16.1.20161.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Infragistics.Xamarin.Core.16.1.20161.1002\lib\MonoAndroid10\InfragisticsXF.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Infragistics\2016.1\Xamarin Forms\References\InfragisticsXF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="InfragisticsXF.Android, Version=16.1.20161.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Infragistics.Xamarin.Core.16.1.20161.1002\lib\MonoAndroid10\InfragisticsXF.Android.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Infragistics\2016.1\Xamarin Forms\References\InfragisticsXF.Android.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="InfragisticsXF.Controls.Charts, Version=16.1.20161.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Infragistics.Xamarin.Charts.16.1.20161.1002\lib\MonoAndroid10\InfragisticsXF.Controls.Charts.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Infragistics\2016.1\Xamarin Forms\References\InfragisticsXF.Controls.Charts.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="InfragisticsXF.Controls.Charts.Android, Version=16.1.20161.1002, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Infragistics.Xamarin.Charts.16.1.20161.1002\lib\MonoAndroid10\InfragisticsXF.Controls.Charts.Android.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Infragistics\2016.1\Xamarin Forms\References\InfragisticsXF.Controls.Charts.Android.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Android" />

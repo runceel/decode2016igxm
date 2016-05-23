@@ -21,7 +21,7 @@ namespace XF_SalesDashboard
         protected override async void OnStart()
         {
             System.Diagnostics.Debug.WriteLine("【OnStart】");
-            await Models.SingletonSalesClass.Instance.Initialize();
+            await Models.SingletonSalesClass.Instance.InitializeAsync();
             // Handle when your app starts
             //await Models.SingletonSalesClass.Instance.Initialize();
         }

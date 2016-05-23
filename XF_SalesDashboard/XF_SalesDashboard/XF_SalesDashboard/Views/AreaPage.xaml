@@ -12,7 +12,7 @@
     </Grid.RowDefinitions>
 
     <!-- ListView -->
-    <ListView x:Name="listView" ItemsSource="{Binding}">
+    <ListView x:Name="listView" ItemsSource="{Binding SalesData}">
       <ListView.ItemTemplate>
         <DataTemplate>
           <TextCell Text="{Binding Item}" Detail="{Binding Value, StringFormat='{0}円'}"/>
@@ -24,12 +24,12 @@
     <ig:XFDataChart Grid.Row="1" x:Name="dataChart">
       <ig:XFDataChart.Axes>
         <ig:CategoryXAxis x:Name="xAxis"
-                          ItemsSource="{Binding}"
+                          ItemsSource="{Binding CategoryData}"
                           Label="Item"/>
         <ig:NumericYAxis x:Name="yAxis"/>
       </ig:XFDataChart.Axes>
       <ig:XFDataChart.Series>
-        <ig:ColumnSeries ItemsSource="{Binding}"
+        <ig:ColumnSeries ItemsSource="{Binding CategoryData}"
                          Title="Sales"
                          ValueMemberPath="Value"
                          XAxis="{x:Reference xAxis}"
@@ -41,7 +41,7 @@
     <!-- PieChart -->
     <!--<ig:XFPieChart Grid.Row="2"
                    x:Name="pieChart"
-                   ItemsSource="{Binding}"
+                   ItemsSource="{Binding SegmentData}"
                    LabelMemberPath="Item"
                    ValueMemberPath="Value"/>-->
 

@@ -9,41 +9,68 @@ using XF_SalesDashboard.Models;
 
 namespace XF_SalesDashboard.ViewModels
 {
-    public class AreaPageViewModel // : INotifyPropertyChanged
+    public class AreaPageViewModel : INotifyPropertyChanged
     {
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        private List<SummaryModel> _salesData;
 
-        public List<SummaryModel> SalesData { get; set; }
+        public List<SummaryModel> SalesData
+        {
+            get { return _salesData; }
+            set
+            {
+                _salesData = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SalesData)));
+            }
+        }
 
-        public List<SummaryModel> CategoryData { get; set; }
+        List<SummaryModel> _categoryData;
 
-        public List<SummaryModel> SegmentData { get; set; }
+        public List<SummaryModel> CategoryData
+        {
+            get { return _categoryData; }
+            set
+            {
+                _categoryData = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategoryData)));
+            }
+        }
+
+        private List<SummaryModel> _segmentData;
+        public List<SummaryModel> SegmentData
+        {
+            get { return _segmentData; }
+            set
+            {
+                _segmentData = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentData)));
+            }
+        }
 
 
 
         public AreaPageViewModel()
         {
             Init();
-            System.Diagnostics.Debug.WriteLine("【Constructor】AreaPageViewModel");
         }
 
-        public async void Init()
+        private void Init()
         {
-            //await Models.SingletonSalesClass.Instance.Initialize();
-           
-            this.SalesData = await SingletonSalesClass.Instance.GetSalesAsync();
-            this.CategoryData = await SingletonSalesClass.Instance.GetSalesbyCategoriesAsync();
-            this.SegmentData = await SingletonSalesClass.Instance.GetSalesbySegmentsAsync();
+            SingletonSalesClass.Instance.PropertyChanged += Instance_PropertyChanged;
+            this.SalesData = SingletonSalesClass.Instance.GetSales();
+            this.CategoryData = SingletonSalesClass.Instance.GetSalesbyCategories();
+            this.SegmentData = SingletonSalesClass.Instance.GetSalesbySegments();
         }
 
-
-        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    if (PropertyChanged != null)
-        //    {
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
+        private void Instance_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SingletonSalesClass.SalesData))
+            {
+                this.SalesData = SingletonSalesClass.Instance.GetSales();
+                this.CategoryData = SingletonSalesClass.Instance.GetSalesbyCategories();
+                this.SegmentData = SingletonSalesClass.Instance.GetSalesbySegments();
+            }
+        }
     }
 }
